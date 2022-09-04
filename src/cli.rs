@@ -40,4 +40,11 @@ pub enum Commands {
         #[clap(short, long = "output")]
         output_file: String,
     },
+    #[clap(display_order = 2)]
+    /// Generate SQL inserts
+    Sql {
+        /// Output file
+        #[clap(short, long = "output")]
+        output_file: String,
+    },
 }

@@ -91,6 +91,11 @@ fn init_handler(
             let handler = Box::new(handlers::sqlite_db::Handler::new(conn, langs));
             handler
         }
+        Commands::Sql { output_file } => {
+            let handler = Box::new(handlers::sql::Handler::new(&output_file)?);
+
+            handler
+        }
     };
 
     Ok(handler)
