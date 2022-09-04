@@ -1,4 +1,5 @@
 /target
 *.db
 *.sqlite
+*.sql
 .DS_Store

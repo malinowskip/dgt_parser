@@ -90,7 +90,7 @@ impl TranslationUnit {
     /// Checks whether the translation unit contains texts in **each** of the
     /// specified languages.
     pub fn contains_each_lang(&self, langs: &IncludedLangs) -> bool {
-        return match langs.clone() {
+        return match langs {
             IncludedLangs::Unlimited => true,
             IncludedLangs::Each(langs) | IncludedLangs::Some(langs) => {
                 langs.iter().fold(true, |acc, lang| {
@@ -113,12 +113,12 @@ impl TranslationUnit {
     /// Checks whether the translation unit contains texts in **any** of the
     /// specified languages.
     pub fn contains_any_lang(&self, langs: &IncludedLangs) -> bool {
-        return match langs.clone() {
+        return match langs {
             IncludedLangs::Unlimited => true,
             IncludedLangs::Each(langs) | IncludedLangs::Some(langs) => {
                 for lang in langs {
                     for segment in &self.segments {
-                        if segment.lang == lang {
+                        if &segment.lang == lang {
                             return true;
                         }
                     }

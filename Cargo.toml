@@ -5,10 +5,10 @@ name = "dgt_parser"
 version = "0.1.0"
 
 [dependencies]
-anyhow = "1.0.63"
-clap = {version = "3.2.19", features = ["derive"]}
+anyhow = "1.0.58"
+clap = {version = "3.2.12", features = ["derive"]}
 encoding_rs = "0.8.31"
-quick-xml = {version = "0.24", features = ["serialize"]}
+quick-xml = {version = "0.23", features = ["serialize"]}
 regex = "1"
 rusqlite = {version = "0.28", features = ["bundled"]}
 serde = {version = "1.0", features = ["derive"]}
