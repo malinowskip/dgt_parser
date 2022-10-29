@@ -23,15 +23,13 @@ dgt_parser -i <INPUT_DIR> <SUBCOMMAND>
 ```
 ...where the input dir is the directory containing the downloaded ZIP files and the subcommand specifies the output format (more details below).
 
-## Output Formats
-
-### SQLite Database
+## SQLite Database
 
 ```shell
-dgt_parser -i <INPUT_DIR> sqlite --output my_output.db
+dgt_parser -i <INPUT_DIR> sqlite --output db.sqlite
 ```
 
-To display the schema of the generated database, run the following command (assuming SQLite is installed on your system):
+To display the schema of the generated database, you can run the following command (assuming SQLite is installed on your system):
 
 ```shell
 sqlite3 my_output.db ".schema"
@@ -64,7 +62,7 @@ dgt_parser -l pl -l en -i ./input_dir sqlite -o db.sqlite
 
 ---
 
-Same as above, but skip translation units in which text in any of the specified languages is missing.
+Same as above, but only include the translation units that contain texts in all of the specified languages.
 
 ```shell
 dgt_parser --require-each-lang -l pl -l en -i ./input_dir sqlite -o db.sqlite
