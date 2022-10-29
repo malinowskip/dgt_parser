@@ -40,6 +40,11 @@ The database will contain two tables: `translation_units` and `documents`. The l
 
 For convenience, each translation unit is assigned a `sequential_number`, which is its consecutive number in the document it belongs to.
 
+### Examples
+Using the generated SQLite database:
+
+#### Basic querying
+
 ```sql
 --- EXAMPLE (joining translation units with documents) ---
 SELECT
@@ -47,6 +52,41 @@ SELECT
     d.name
 FROM translation_units tu
 JOIN documents d on tu.document_id = d.id
+LIMIT 5;
+```
+
+#### Generating a full-text search index
+*Note: the [FTS5 extension](https://www.sqlite.org/fts5.html) is required for this.*
+
+```sql
+CREATE VIRTUAL TABLE translation_units_fts USING fts5 (
+    document_id,
+    en_gb,
+    pl_01,
+    content=translation_units
+);
+
+INSERT INTO
+    translation_units_fts
+SELECT
+    document_id,
+    en_gb,
+    pl_01
+FROM
+    translation_units;
+
+--- Run full-text search queries ---
+SELECT * FROM translation_units_fts WHERE en_gb MATCH 'tamper evident' LIMIT 5;
+
+--- Include the name/id of the source document ---
+SELECT
+    d.name,
+    tu.en_gb,
+    tu.pl_01
+FROM 
+    translation_units_fts tu
+JOIN documents d on d.id = tu.document_id
+WHERE en_gb MATCH 'tamper evident'
 LIMIT 5;
 ```
 
