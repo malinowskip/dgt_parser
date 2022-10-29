@@ -94,7 +94,7 @@ impl Handler {
         let query = format!("ALTER TABLE translation_units ADD COLUMN {}", &column);
         self.conn
             .execute(&query, [])
-            .expect("failed to add new column to database");
+            .expect("Failed to add new column to database.");
         self.language_columns_in_db.push(column.clone());
 
         Ok(())
@@ -131,7 +131,7 @@ impl Handler {
     ) -> Result<(String, ParamsFromIter<Vec<String>>)> {
         let doc_name = match tu.doc_name() {
             Some(doc) => doc.to_string(),
-            None => bail!("No document id provided for translation segment"),
+            None => bail!("No document ID provided for the translation segment."),
         };
 
         #[derive(Clone)]
@@ -257,7 +257,7 @@ impl Handler {
                 self.valid_lang_codes.push(lang_code.clone());
                 Ok(lang_code)
             } else {
-                bail!("Invalid language code: {}", lang_code);
+                bail!("Invalid language code: {}.", lang_code);
             }
         }
     }

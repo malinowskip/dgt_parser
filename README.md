@@ -24,6 +24,7 @@ dgt_parser -i <INPUT_DIR> <SUBCOMMAND>
 ...where the input dir is the directory containing the downloaded ZIP files and the subcommand specifies the output format (more details below).
 
 ## SQLite Database
+The following command will save all translation units in an SQLite database.
 
 ```shell
 dgt_parser -i <INPUT_DIR> sqlite --output db.sqlite
@@ -36,6 +37,8 @@ sqlite3 my_output.db ".schema"
 ```
 
 The database will contain two tables: `translation_units` and `documents`. The latter is a list of source EU documents. Each translation unit belongs to a document, and the `translation_units` table uses the `document_id` column as the foreign key referencing the corresponding document id.
+
+For convenience, each translation unit is assigned a `sequential_number`, which is its consecutive number in the document it belongs to.
 
 ```sql
 --- EXAMPLE (joining translation units with documents) ---

@@ -48,7 +48,7 @@ fn main() -> Result<()> {
         tmx_files_parsed += 1;
         let percentage: f32 = (tmx_files_parsed as f32 / total_tmx_files as f32) * 100 as f32;
         print!(
-            "\rParsing {} out of {} documents ({:.0}%)",
+            "\rParsing {} out of {} documents ({:.0}%).",
             tmx_files_parsed, total_tmx_files, percentage
         );
         std::io::stdout().flush()?;
