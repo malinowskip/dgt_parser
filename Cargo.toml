@@ -6,7 +6,7 @@ version = "0.1.0"
 
 [dependencies]
 anyhow = "1.0.66"
-clap = {version = "3.2.12", features = ["derive"]}
+clap = {version = "4.0.18", features = ["derive"]}
 encoding_rs = "0.8.31"
 quick-xml = {version = "0.26", features = ["serialize"]}
 regex = "1"
