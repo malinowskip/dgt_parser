@@ -46,6 +46,9 @@ Using the generated SQLite database:
 #### Basic querying
 
 ```sql
+--- Simple query ---
+SELECT en_gb, pl_01 FROM translation_units WHERE pl_01 LIKE '%jednakowoż%' LIMIT 5;
+
 --- EXAMPLE (joining translation units with documents) ---
 SELECT
     tu.en_gb,
@@ -86,7 +89,7 @@ SELECT
 FROM 
     translation_units_fts tu
 JOIN documents d on d.id = tu.document_id
-WHERE en_gb MATCH 'tamper evident'
+WHERE en_gb MATCH 'heretofore'
 LIMIT 5;
 ```
 

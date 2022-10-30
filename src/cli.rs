@@ -14,17 +14,17 @@ pub struct Cli {
     #[clap(subcommand)]
     pub command: Commands,
 
-    /// Path to directory containing a flat collection of ZIP files
+    /// Path to directory containing a flat collection of ZIP files.
     #[clap(short, long)]
     #[clap(display_order = 1)]
     pub input_dir: PathBuf,
 
-    /// Languages that should be included in the output
+    /// Languages that should be included in the output.
     #[clap(short)]
     #[clap(display_order = 2)]
     pub langs: Option<Vec<String>>,
 
-    /// Only include translation units where each of the specified languages is present
+    /// Only include translation units where each of the specified languages is present.
     #[clap(short, long)]
     #[clap(display_order = 3)]
     #[clap(requires = "langs")]
@@ -34,7 +34,7 @@ pub struct Cli {
 #[derive(Subcommand)]
 pub enum Commands {
     #[clap(display_order = 1)]
-    /// Save translation units in an SQLite database
+    /// Save the translation units in an SQLite database.
     Sqlite {
         /// Output file
         #[clap(short, long = "output")]

@@ -131,7 +131,7 @@ impl Handler {
     ) -> Result<(String, ParamsFromIter<Vec<String>>)> {
         let doc_name = match tu.doc_name() {
             Some(doc) => doc.to_string(),
-            None => bail!("No document ID provided for the translation segment."),
+            None => bail!("Error: no document ID provided for the translation segment."),
         };
 
         #[derive(Clone)]
@@ -257,7 +257,7 @@ impl Handler {
                 self.valid_lang_codes.push(lang_code.clone());
                 Ok(lang_code)
             } else {
-                bail!("Invalid language code: {}.", lang_code);
+                bail!("Error: invalid language code: {}.", lang_code);
             }
         }
     }

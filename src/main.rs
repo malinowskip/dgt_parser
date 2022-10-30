@@ -85,7 +85,7 @@ fn init_handler(
     let handler: Box<dyn types::TranslationUnitHandler> = match cli_command {
         Commands::Sqlite { output_file } => {
             if Path::exists(&PathBuf::from(&output_file)) {
-                bail!("{} already exists!", &output_file);
+                bail!("Error: {} already exists.", &output_file);
             }
             let conn = rusqlite::Connection::open(output_file)?;
             let handler = Box::new(handlers::sqlite_db::Handler::new(conn, langs));
