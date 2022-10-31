@@ -207,11 +207,11 @@ impl Handler {
     /// exist in the database, insert the document into the database.
     fn insert_document(&mut self, translation_unit: &TranslationUnit) -> Result<()> {
         if let Some(doc_name) = translation_unit.doc_name() {
-            if let None = self.docs_in_db.get(&doc_name) {
+            if let None = self.docs_in_db.get(doc_name) {
                 let mut query = self
                     .conn
                     .prepare("INSERT INTO documents (name) VALUES (?)")?;
-                query.execute(params![&doc_name])?;
+                query.execute(params![doc_name])?;
                 let id: u32 = self.conn.query_row(
                     "SELECT id FROM documents WHERE name = ?",
                     params![doc_name],
