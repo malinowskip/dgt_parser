@@ -19,12 +19,14 @@ pub struct Cli {
     #[clap(display_order = 1)]
     pub input_dir: PathBuf,
 
-    /// Languages that should be included in the output.
+    /// Languages that should be included in the output. All languages are
+    /// included by default.
     #[clap(short)]
     #[clap(display_order = 2)]
     pub langs: Option<Vec<String>>,
 
-    /// Only include translation units where each of the specified languages is present.
+    /// Only include translation units where each of the specified languages is
+    /// present.
     #[clap(short, long)]
     #[clap(display_order = 3)]
     #[clap(requires = "langs")]
@@ -36,7 +38,7 @@ pub enum Commands {
     #[clap(display_order = 1)]
     /// Save the translation units in an SQLite database.
     Sqlite {
-        /// Output file
+        /// Output file path.
         #[clap(short, long = "output")]
         output_file: String,
     },
