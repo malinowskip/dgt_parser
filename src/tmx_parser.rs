@@ -74,7 +74,7 @@ pub fn parse_tmx(xml_string: String) -> Result<Tmx, DeError> {
 
 impl TranslationUnit {
     /// Name/ID of EU legislation associated with the translation unit.
-    pub fn doc_name(&self) -> Option<String> {
+    pub fn doc_name(&self) -> Option<&String> {
         let name_props = &self
             .props
             .iter()
@@ -82,7 +82,7 @@ impl TranslationUnit {
             .collect::<Vec<&Prop>>();
 
         return match name_props.get(0) {
-            Some(name) => Some(name.value.clone()),
+            Some(name) => Some(&name.value),
             None => None,
         };
     }
