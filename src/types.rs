@@ -4,7 +4,7 @@ use crate::tmx_parser::TranslationUnit;
 /// output. Language codes are in the same format as in the source TMX files,
 /// i.e. `EN-GB`, `PL-01`.
 #[derive(Clone)]
-pub enum IncludedLangs {
+pub enum RequestedLangs {
     /// 1. Include all languages.
     /// 2. Don’t skip any translation units.
     Unlimited,

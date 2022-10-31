@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use crate::types::IncludedLangs;
+use crate::types::RequestedLangs;
 use anyhow::Result;
 use quick_xml::de::{from_str, DeError};
 use serde::Deserialize;
@@ -89,10 +89,10 @@ impl TranslationUnit {
 
     /// Checks whether the translation unit contains texts in **each** of the
     /// specified languages.
-    pub fn contains_each_lang(&self, langs: &IncludedLangs) -> bool {
+    pub fn contains_each_lang(&self, langs: &RequestedLangs) -> bool {
         return match langs {
-            IncludedLangs::Unlimited => true,
-            IncludedLangs::Each(langs) | IncludedLangs::Some(langs) => {
+            RequestedLangs::Unlimited => true,
+            RequestedLangs::Each(langs) | RequestedLangs::Some(langs) => {
                 langs.iter().fold(true, |acc, lang| {
                     if !acc {
                         return false;
@@ -112,10 +112,10 @@ impl TranslationUnit {
 
     /// Checks whether the translation unit contains texts in **any** of the
     /// specified languages.
-    pub fn contains_any_lang(&self, langs: &IncludedLangs) -> bool {
+    pub fn contains_any_lang(&self, langs: &RequestedLangs) -> bool {
         return match langs {
-            IncludedLangs::Unlimited => true,
-            IncludedLangs::Each(langs) | IncludedLangs::Some(langs) => {
+            RequestedLangs::Unlimited => true,
+            RequestedLangs::Each(langs) | RequestedLangs::Some(langs) => {
                 for lang in langs {
                     for segment in &self.segments {
                         if &segment.lang == lang {

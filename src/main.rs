@@ -15,7 +15,7 @@ use std::io::Write;
 use std::path::{Path, PathBuf};
 
 use tmx_parser::{parse_tmx, Tmx};
-use types::IncludedLangs;
+use types::RequestedLangs;
 
 fn main() -> Result<()> {
     let cli = cli::Cli::parse();
@@ -31,17 +31,17 @@ fn main() -> Result<()> {
     //
     // By default, the output will contain texts all languages. If language
     // codes are specified, other languages will be ommitted from the output.
-    let langs: IncludedLangs = match cli.langs {
-        None => IncludedLangs::Unlimited,
+    let requested_langs: RequestedLangs = match cli.langs {
+        None => RequestedLangs::Unlimited,
         Some(langs) => match cli.require_each_lang {
-            true => IncludedLangs::Each(coerce_lang_codes(langs)),
-            false => IncludedLangs::Some(coerce_lang_codes(langs)),
+            true => RequestedLangs::Each(coerce_lang_codes(langs)),
+            false => RequestedLangs::Some(coerce_lang_codes(langs)),
         },
     };
 
     // Saves each translation unit received into the handler’s dedicated output
     // format.
-    let mut handler = init_handler(cli.command, langs.clone())?;
+    let mut handler = init_handler(cli.command, requested_langs.clone())?;
 
     // Keep track of TMX documents parsed and report progress to the user.
     let mut incr_count_and_report_progress = || -> Result<()> {
@@ -62,7 +62,7 @@ fn main() -> Result<()> {
             let tmx_contents = read_utf16_file_to_string(&mut file)?;
             let Tmx { body, header: _ } = parse_tmx(tmx_contents)?;
             for (i, tu) in body.translation_units.into_iter().enumerate() {
-                if cli.require_each_lang && !tu.contains_each_lang(&langs) {
+                if cli.require_each_lang && !tu.contains_each_lang(&requested_langs) {
                     continue;
                 } else {
                     handler.handle(tu, i as u32);
@@ -80,7 +80,7 @@ fn main() -> Result<()> {
 
 fn init_handler(
     cli_command: Commands,
-    langs: IncludedLangs,
+    requested_langs: RequestedLangs,
 ) -> Result<Box<dyn types::TranslationUnitHandler>> {
     let handler: Box<dyn types::TranslationUnitHandler> = match cli_command {
         Commands::Sqlite { output_file } => {
@@ -88,7 +88,7 @@ fn init_handler(
                 bail!("Error: {} already exists.", &output_file);
             }
             let conn = rusqlite::Connection::open(output_file)?;
-            let handler = Box::new(handlers::sqlite_db::Handler::new(conn, langs));
+            let handler = Box::new(handlers::sqlite_db::Handler::new(conn, requested_langs));
             handler
         }
     };
