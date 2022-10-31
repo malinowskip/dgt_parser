@@ -25,7 +25,8 @@ pub struct Body {
     pub translation_units: Vec<TranslationUnit>,
 }
 
-/// Contains the translations of a text in a set of languages.
+/// A translation unit contains the translations of a text in multiple
+/// languages.
 #[derive(Debug, Deserialize, PartialEq)]
 pub struct TranslationUnit {
     #[serde(rename = "prop", default)]
@@ -34,9 +35,9 @@ pub struct TranslationUnit {
     pub segments: Vec<Tuv>,
 }
 
-/// The `prop` element defines metadata. In the context of the DGT-Translation
-/// Memory, this element is used to specify the name/id of the EU legislation
-/// that a given translation unit comes from.
+/// The `prop` element defines metadata. In the context of the DGT-TM, this
+/// element is used to specify the name/id of the EU legislation that a given
+/// translation unit comes from.
 /// ## Example
 /// ```xml
 /// <tu>

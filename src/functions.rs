@@ -67,7 +67,7 @@ fn coerce_lang_code(input: &String) -> String {
 }
 
 #[test]
-fn coertion_leaves_unrecognized_string_untouched() {
+fn coercion_leaves_unrecognized_string_intact() {
     assert_eq!(coerce_lang_code(&"en".to_string()), "EN-GB".to_string());
     assert_eq!(coerce_lang_code(&"Hello".to_string()), "Hello".to_string());
 }

@@ -20,17 +20,18 @@ use types::RequestedLangs;
 fn main() -> Result<()> {
     let cli = cli::Cli::parse();
 
-    // A sum total of TMX documents across the ZIP files in the input
+    // Total count of TMX documents across the ZIP files in the input
     // directory.
     let total_tmx_files = count_tmx_files(&cli.input_dir)?;
 
     // Reported back to the user.
     let mut tmx_files_parsed = 0;
 
-    // Allows the user to restrict what languages are included in the output.
+    // Allows the user to restrict which languages are included in the output.
     //
-    // By default, the output will contain texts all languages. If language
-    // codes are specified, other languages will be ommitted from the output.
+    // By default, the output will contain texts in all languages. If language
+    // codes are specified, only the specified languages will be included in the
+    // output.
     let requested_langs: RequestedLangs = match cli.langs {
         None => RequestedLangs::Unlimited,
         Some(langs) => match cli.require_each_lang {
@@ -43,7 +44,8 @@ fn main() -> Result<()> {
     // format.
     let mut handler = init_handler(cli.command, requested_langs.clone())?;
 
-    // Keep track of TMX documents parsed and report progress to the user.
+    // Keep track of the number of TMX documents parsed and report progress to
+    // the user.
     let mut incr_count_and_report_progress = || -> Result<()> {
         tmx_files_parsed += 1;
         let percentage: f32 = (tmx_files_parsed as f32 / total_tmx_files as f32) * 100 as f32;

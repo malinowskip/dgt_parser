@@ -54,7 +54,7 @@ LIMIT 5;
 #### Generating a full-text search index
 *Note: the [FTS5 extension](https://www.sqlite.org/fts5.html) is required for this.*
 
-In the following example, the index will only contain entries in Polish and English.
+*Note: in the following example, the search index will only contain entries in Polish and English.*
 
 ```sql
 CREATE VIRTUAL TABLE translation_units_fts USING fts5 (
@@ -92,7 +92,7 @@ LIMIT 5;
 ```
 ## Usage reference
 
-Parse ZIP files in `./input_dir` and save all translation units in an SQLite database:
+Parse all ZIP files in `./input_dir` and save all translation units in an SQLite database:
 ```shell
 dgt_parser -i ./input_dir sqlite -o db.sqlite
 ```

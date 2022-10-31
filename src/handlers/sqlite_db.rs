@@ -77,8 +77,8 @@ impl Handler {
             format!(
                 "
             CREATE TABLE IF NOT EXISTS documents (
-                    id INTEGER PRIMARY KEY,
-                    name TEXT
+                id INTEGER PRIMARY KEY,
+                name TEXT
             )"
             ),
         ];
