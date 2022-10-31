@@ -4,7 +4,7 @@ use rusqlite::{params, params_from_iter, Connection, ParamsFromIter};
 use std::collections::HashMap;
 
 use crate::tmx_parser::TranslationUnit;
-use crate::types::{IncludedLangs, TranslationUnitHandler};
+use crate::types::{RequestedLangs, TranslationUnitHandler};
 
 /// How many translation units to insert in one batch.
 const TRANSACTION_SIZE: usize = 20_000;
@@ -27,7 +27,7 @@ pub struct Handler {
 
     /// Config value provided by the user. Determines if a text in a given
     /// language should be included in the output or skipped.
-    langs: IncludedLangs,
+    requested_langs: RequestedLangs,
 
     /// Used to validate language codes (used a database columns).
     valid_lang_codes: Vec<String>,
@@ -41,13 +41,13 @@ impl TranslationUnitHandler for Handler {
 }
 
 impl Handler {
-    pub fn new(conn: rusqlite::Connection, langs: IncludedLangs) -> Handler {
+    pub fn new(conn: rusqlite::Connection, requested_langs: RequestedLangs) -> Handler {
         let handler = Handler {
             conn,
             language_columns_in_db: Vec::new(),
             queries: Vec::new(),
             docs_in_db: HashMap::new(),
-            langs,
+            requested_langs,
             valid_lang_codes: Vec::new(),
         };
         handler.setup();
@@ -105,12 +105,12 @@ impl Handler {
         tu: TranslationUnit,
         sequential_number_in_doc: u32,
     ) -> Result<()> {
-        if let IncludedLangs::Each(_) = &self.langs {
-            if !tu.contains_each_lang(&self.langs) {
+        if let RequestedLangs::Each(_) = &self.requested_langs {
+            if !tu.contains_each_lang(&self.requested_langs) {
                 return Ok(());
             }
-        } else if let IncludedLangs::Some(_) = &self.langs {
-            if !tu.contains_any_lang(&self.langs) {
+        } else if let RequestedLangs::Some(_) = &self.requested_langs {
+            if !tu.contains_any_lang(&self.requested_langs) {
                 return Ok(());
             }
         }
@@ -236,9 +236,9 @@ impl Handler {
 
     /// Determine if the text in a language should be included in the output.
     fn lang_is_eligible(&mut self, lang_code: &String) -> bool {
-        match &self.langs {
-            IncludedLangs::Unlimited => true,
-            IncludedLangs::Each(langs) | IncludedLangs::Some(langs) => langs.contains(lang_code),
+        match &self.requested_langs {
+            RequestedLangs::Unlimited => true,
+            RequestedLangs::Each(langs) | RequestedLangs::Some(langs) => langs.contains(lang_code),
         }
     }
 
@@ -302,7 +302,7 @@ mod test {
 
     fn setup() -> Handler {
         let conn = rusqlite::Connection::open_in_memory().unwrap();
-        let langs = crate::types::IncludedLangs::Unlimited;
+        let langs = crate::types::RequestedLangs::Unlimited;
         let mut handler = Handler::new(conn, langs);
         let input_dir = PathBuf::from("./test_data/zipped");
         let mut parsed_translation_units = 0;
