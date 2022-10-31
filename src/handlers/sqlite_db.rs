@@ -105,15 +105,6 @@ impl Handler {
         tu: TranslationUnit,
         sequential_number_in_doc: u32,
     ) -> Result<()> {
-        if let RequestedLangs::Each(_) = &self.requested_langs {
-            if !tu.contains_each_lang(&self.requested_langs) {
-                return Ok(());
-            }
-        } else if let RequestedLangs::Some(_) = &self.requested_langs {
-            if !tu.contains_any_lang(&self.requested_langs) {
-                return Ok(());
-            }
-        }
         self.insert_document(&tu)?;
         let query = self.create_translation_unit_insert_query(&tu, sequential_number_in_doc)?;
         self.queries.push(query);

@@ -62,11 +62,17 @@ fn main() -> Result<()> {
             let tmx_contents = read_utf16_file_to_string(&mut file)?;
             let Tmx { body, header: _ } = parse_tmx(tmx_contents)?;
             for (i, tu) in body.translation_units.into_iter().enumerate() {
-                if cli.require_each_lang && !tu.contains_each_lang(&requested_langs) {
-                    continue;
-                } else {
-                    handler.handle(tu, i as u32);
+                if let RequestedLangs::Some(_) = &requested_langs {
+                    if !tu.contains_any_lang(&requested_langs) {
+                        continue;
+                    }
                 }
+                if let RequestedLangs::Each(_) = &requested_langs {
+                    if !tu.contains_each_lang(&requested_langs) {
+                        continue;
+                    }
+                }
+                handler.handle(tu, i as u32);
             }
 
             Ok(())
