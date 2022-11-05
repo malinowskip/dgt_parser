@@ -13,3 +13,7 @@ regex = "1"
 rusqlite = {version = "0.28", features = ["bundled"]}
 serde = {version = "1.0", features = ["derive"]}
 zip = "0.6.3"
+
+[dev-dependencies]
+assert_cmd = "2.0.6"
+assert_fs = "1.0.8"
