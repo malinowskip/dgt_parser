@@ -2,7 +2,7 @@
 authors = ["Paweł Malinowski <p@malinowski.pm>"]
 edition = "2021"
 name = "dgt_parser"
-version = "0.1.0"
+version = "0.1.1"
 
 [dependencies]
 anyhow = "1.0.66"
